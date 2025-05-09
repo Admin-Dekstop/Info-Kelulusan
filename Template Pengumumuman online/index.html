@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengumuman Kelulusan Siswa Tahun Pelajaran 2024/2025</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    
+    // Daftar NSN dan file SKL terkait
+const sklFiles = {
+    "1234567890": "1234567890.pdf",
+    "9876543210": "9876543210.pdf",
+    "1122334455": "1122334455.pdf",
+    "0099230110": "0099230110.pdf",
+    "0104076633": "0104076633.pdf",
+    "0101212974": "0101212974.pdf",
+    "0103776386": "0103776386.pdf",
+    "0104441266": "0104441266.pdf",
+    "0104853864": "0104853864.pdf",
+    "0099088883": "0099088883.pdf",
+    "0104565300": "0104565300.pdf",
+    "0106574765": "0106574765.pdf",
+    "0107571584": "0107571584.pdf",
+    "0105961598": "0105961598.pdf",
+    "0106497100": "0106497100.pdf",
+    "0094625453": "0094625453.pdf",
+    "0103834946": "0103834946.pdf",
+    "0091386868": "0091386868.pdf",
+    "0093173103": "0093173103.pdf",
+    "0108738902": "0108738902.pdf",
+    "0093584660": "0093584660.pdf",
+    "0093047826": "0093047826.pdf",
+    "0093388199": "0093388199.pdf",
+    "0108194256": "0108194256.pdf",
+    "0107975231": "0107975231.pdf",
+    "0102279183": "0102279183.pdf",
+    "0103325365": "0103325365.pdf",
+    "0091158385": "0091158385.pdf",
+    "0104466195": "0104466195.pdf",
+    "0095997516": "0095997516.pdf",
+    "0096478013": "0096478013.pdf",
+    "0093864559": "0093864559.pdf",
+    "0103303863": "0103303863.pdf",
+    "0102042637": "0102042637.pdf",
+    "0095966735": "0095966735.pdf",
+    "0084937462": "0084937462.pdf",
+    "0101668062": "0101668062.pdf",
+    "0107162808": "0107162808.pdf",
+    "0097590273": "0097590273.pdf",
+    "0092949752": "0092949752.pdf",
+    "0091933418": "0091933418.pdf",
+    "0101692395": "0101692395.pdf",
+    "0107895062": "0107895062.pdf",
+    "0106720162": "0106720162.pdf",
+    "0095098666": "0095098666.pdf",
+    "0102154717": "0102154717.pdf",
+    "0109240589": "0109240589.pdf",
+    "0109170614": "0109170614.pdf",
+    "0109711301": "0109711301.pdf",
+    "0105649817": "0105649817.pdf",
+    "0103764146": "0103764146.pdf",
+    "0107986089": "0107986089.pdf",
+    "0095555535": "0095555535.pdf",
+    "0092188314": "0092188314.pdf",
+    "0102466338": "0102466338.pdf",
+    "0094837848": "0094837848.pdf",
+    "0101924918": "0101924918.pdf",
+    "0105561287": "0105561287.pdf",
+    "0108034770": "0108034770.pdf",
+    "0104055535": "0104055535.pdf",
+    "0094291983": "0094291983.pdf",
+    "0102972929": "0102972929.pdf",
+    "0109967598": "0109967598.pdf",
+    "0107653524": "0107653524.pdf",
+    "3073620416": "3073620416.pdf",
+    "0099240701": "0099240701.pdf",
+    "0097697729": "0097697729.pdf",
+    "0092692322": "0092692322.pdf",
+    "3107191213": "3107191213.pdf",
+    "0109243888": "0109243888.pdf",
+    "0117156683": "0117156683.pdf",
+    "0096954289": "0096954289.pdf",
+    "0108903334": "0108903334.pdf",
+    "0103549181": "0103549181.pdf",
+    "0108168405": "0108168405.pdf",
+    "0103551996": "0103551996.pdf",
+    "0094294347": "0094294347.pdf",
+    "0106052977": "0106052977.pdf",
+    "0091113622": "0091113622.pdf",
+    "0095679481": "0095679481.pdf",
+    "0109407319": "0109407319.pdf",
+    "0109187015": "0109187015.pdf",
+    "0099546040": "0099546040.pdf",
+    "0097249651": "0097249651.pdf",
+    "0096975457": "0096975457.pdf",
+    "0104480680": "0104480680.pdf",
+    "0107806832": "0107806832.pdf",
+    "0105372830": "0105372830.pdf",
+    "0093788632": "0093788632.pdf",
+    "0105127280": "0105127280.pdf",
+    "0101168163": "0101168163.pdf",
+    "0102972907": "0102972907.pdf",
+    "0091540587": "0091540587.pdf",
+    "0101042506": "0101042506.pdf",
+    "0102310457": "0102310457.pdf",
+    "0094171580": "0094171580.pdf",
+    "0092950622": "0092950622.pdf",
+    "0099140554": "0099140554.pdf",
+    "0106311286": "0106311286.pdf",
+    "0102845363": "0102845363.pdf",
+    "0107245745": "0107245745.pdf"
+};
+    // Fungsi untuk memvalidasi NISN dan menampilkan tombol download SKL
+    function validateNSN() {
+        const nisnInput = document.getElementById("nisnInput").value.trim();
+        const downloadLink = document.getElementById("downloadLink");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (sklFiles[nisnInput]) {
+            downloadLink.href = sklFiles[nisnInput];
+            downloadLink.style.display = "inline-block";
+            errorMessage.style.display = "none";
+        } else {
+            downloadLink.style.display = "none";
+            errorMessage.style.display = "block";
+        }
+
+        cekKelulusan();  // Cek kelulusan setelah input NISN
+    }
+
+    // Fungsi cek kelulusan
+    const siswaData = [
+      { nisn: "1234567890", nama: "Ahmad Zaki", lulus: true },
+      { nisn: "0987654321", nama: "Dina Safira", lulus: false },
+      { nisn: "1122334455", nama: "Dani", lulus: true }
+    ];
+
+    function cekKelulusan() {
+        const nisn = document.getElementById("nisnInput").value.trim();
+        const emoji = document.getElementById("statusEmoji");
+        const motivasiText = document.getElementById("motivasiText");
+
+        const siswa = siswaData.find(siswa => siswa.nisn === nisn);
+
+        if (siswa) {
+            if (siswa.lulus) {
+                emoji.innerText = "🎉";
+                emoji.style.display = "block";
+                motivasiText.innerText = `Selamat, ${siswa.nama}! Kamu LULUS! Terus semangat dan raih cita-citamu!`;
+                motivasiText.className = "motivasi lulus";
+                motivasiText.style.display = "block";
+                confetti({
+                    particleCount: 200,
+                    spread: 90,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                emoji.innerText = "😢";
+                emoji.style.display = "block";
+                motivasiText.innerText = `Maaf, ${siswa.nama}. Kamu TIDAK LULUS. Jangan menyerah, terus berjuang!`;
+                motivasiText.className = "motivasi tidaklulus";
+                motivasiText.style.display = "block";
+            }
+        } else {
+            emoji.innerText = "❓";
+            emoji.style.display = "block";
+            motivasiText.innerText = "NISN tidak ditemukan, periksa kembali NISN Anda.";
+            motivasiText.className = "motivasi";
+            motivasiText.style.display = "block";
+        }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      font-family: 'Comic Neue', cursive;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background-color: #fff;
+      color: #111;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      max-width: 500px;
+      width: 90%;
+      transition: all 0.5s ease;
+    }
+
+    .container img {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .judul {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .subjudul {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: nowrap;
+    }
+
+    .countdown div {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 20px 15px;
+      border-radius: 15px;
+      font-size: 1.5em;
+      min-width: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #inputSection {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      border: 2px solid #2c3e50;
+      border-radius: 10px;
+      font-size: 1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #34495e;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    @media (max-width: 480px) {
+      .judul {
+        font-size: 1.3em;
+      }
+
+      .subjudul {
+        font-size: 1em;
+      }
+
+      .countdown div {
+        font-size: 1.2em;
+        min-width: 50px;
+      }
+
+      input[type="text"] {
+        width: 90%;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .emoji {
+      font-size: 3em;
+      margin-top: 20px;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .motivasi {
+      font-size: 1.2em;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .lulus {
+      color: #28a745; /* hijau */
+    }
+
+    .tidaklulus {
+      color: #e74c3c; /* merah */
+    }
+
+    #downloadLink {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    #errorMessage {
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://github.com/Admin-Dekstop/Info-Kelulusan/raw/main/logo.jpg" alt="Logo Sekolah">
+    <div class="judul">Pengumuman Kelulusan Siswa</div>
+    <div class="subjudul">SMP Negeri 2 Ampana Kota<br>Tahun Ajaran 2024/2025</div>
+    <p id="infoText">Pengumuman akan dibuka dalam:</p>
+    <div class="countdown" id="countdown">
+      <div id="days">00</div>
+      <div id="hours">00</div>
+      <div id="minutes">00</div>
+      <div id="seconds">00</div>
+    </div>
+
+    <div id="inputSection">
+      <input id="nisnInput" type="text" placeholder="Masukkan NISN Anda" />
+      <button onclick="validateNSN()">Cek Kelulusan</button>
+    </div>
+
+    <div class="emoji" id="statusEmoji">🎉</div>
+
+    <div id="motivasiText" class="motivasi"></div>
+
+    <a id="downloadLink" href="#" download>Download SKL</a>
+    <p id="errorMessage">NISN tidak ditemukan. Silakan coba lagi.</p>
+
+    <footer>
+      © 2025 SMP NEGERI 2 AMPANA KOTA<br>
+      Created by FANDY S. M. DALI
+    </footer>
+  </div>
+
+  <script>
+    const countdownDate = new Date("2025-05-09T10:00:00+08:00").getTime();
+
+    const countdownFunction = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("infoText").innerText = "Silakan masukkan NISN Anda:";
+        document.getElementById("inputSection").style.display = "flex";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = String(days).padStart(2, '0');
+      document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+    }, 1000);
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengumuman Kelulusan Siswa Tahun Pelajaran 2024/2025</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    
+    // Daftar NSN dan file SKL terkait
+const sklFiles = {
+    "1234567890": "1234567890.pdf",
+    "9876543210": "9876543210.pdf",
+    "1122334455": "1122334455.pdf",
+    "0099230110": "0099230110.pdf",
+    "0104076633": "0104076633.pdf",
+    "0101212974": "0101212974.pdf",
+    "0103776386": "0103776386.pdf",
+    "0104441266": "0104441266.pdf",
+    "0104853864": "0104853864.pdf",
+    "0099088883": "0099088883.pdf",
+    "0104565300": "0104565300.pdf",
+    "0106574765": "0106574765.pdf",
+    "0107571584": "0107571584.pdf",
+    "0105961598": "0105961598.pdf",
+    "0106497100": "0106497100.pdf",
+    "0094625453": "0094625453.pdf",
+    "0103834946": "0103834946.pdf",
+    "0091386868": "0091386868.pdf",
+    "0093173103": "0093173103.pdf",
+    "0108738902": "0108738902.pdf",
+    "0093584660": "0093584660.pdf",
+    "0093047826": "0093047826.pdf",
+    "0093388199": "0093388199.pdf",
+    "0108194256": "0108194256.pdf",
+    "0107975231": "0107975231.pdf",
+    "0102279183": "0102279183.pdf",
+    "0103325365": "0103325365.pdf",
+    "0091158385": "0091158385.pdf",
+    "0104466195": "0104466195.pdf",
+    "0095997516": "0095997516.pdf",
+    "0096478013": "0096478013.pdf",
+    "0093864559": "0093864559.pdf",
+    "0103303863": "0103303863.pdf",
+    "0102042637": "0102042637.pdf",
+    "0095966735": "0095966735.pdf",
+    "0084937462": "0084937462.pdf",
+    "0101668062": "0101668062.pdf",
+    "0107162808": "0107162808.pdf",
+    "0097590273": "0097590273.pdf",
+    "0092949752": "0092949752.pdf",
+    "0091933418": "0091933418.pdf",
+    "0101692395": "0101692395.pdf",
+    "0107895062": "0107895062.pdf",
+    "0106720162": "0106720162.pdf",
+    "0095098666": "0095098666.pdf",
+    "0102154717": "0102154717.pdf",
+    "0109240589": "0109240589.pdf",
+    "0109170614": "0109170614.pdf",
+    "0109711301": "0109711301.pdf",
+    "0105649817": "0105649817.pdf",
+    "0103764146": "0103764146.pdf",
+    "0107986089": "0107986089.pdf",
+    "0095555535": "0095555535.pdf",
+    "0092188314": "0092188314.pdf",
+    "0102466338": "0102466338.pdf",
+    "0094837848": "0094837848.pdf",
+    "0101924918": "0101924918.pdf",
+    "0105561287": "0105561287.pdf",
+    "0108034770": "0108034770.pdf",
+    "0104055535": "0104055535.pdf",
+    "0094291983": "0094291983.pdf",
+    "0102972929": "0102972929.pdf",
+    "0109967598": "0109967598.pdf",
+    "0107653524": "0107653524.pdf",
+    "3073620416": "3073620416.pdf",
+    "0099240701": "0099240701.pdf",
+    "0097697729": "0097697729.pdf",
+    "0092692322": "0092692322.pdf",
+    "3107191213": "3107191213.pdf",
+    "0109243888": "0109243888.pdf",
+    "0117156683": "0117156683.pdf",
+    "0096954289": "0096954289.pdf",
+    "0108903334": "0108903334.pdf",
+    "0103549181": "0103549181.pdf",
+    "0108168405": "0108168405.pdf",
+    "0103551996": "0103551996.pdf",
+    "0094294347": "0094294347.pdf",
+    "0106052977": "0106052977.pdf",
+    "0091113622": "0091113622.pdf",
+    "0095679481": "0095679481.pdf",
+    "0109407319": "0109407319.pdf",
+    "0109187015": "0109187015.pdf",
+    "0099546040": "0099546040.pdf",
+    "0097249651": "0097249651.pdf",
+    "0096975457": "0096975457.pdf",
+    "0104480680": "0104480680.pdf",
+    "0107806832": "0107806832.pdf",
+    "0105372830": "0105372830.pdf",
+    "0093788632": "0093788632.pdf",
+    "0105127280": "0105127280.pdf",
+    "0101168163": "0101168163.pdf",
+    "0102972907": "0102972907.pdf",
+    "0091540587": "0091540587.pdf",
+    "0101042506": "0101042506.pdf",
+    "0102310457": "0102310457.pdf",
+    "0094171580": "0094171580.pdf",
+    "0092950622": "0092950622.pdf",
+    "0099140554": "0099140554.pdf",
+    "0106311286": "0106311286.pdf",
+    "0102845363": "0102845363.pdf",
+    "0107245745": "0107245745.pdf"
+};
+    // Fungsi untuk memvalidasi NISN dan menampilkan tombol download SKL
+    function validateNSN() {
+        const nisnInput = document.getElementById("nisnInput").value.trim();
+        const downloadLink = document.getElementById("downloadLink");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (sklFiles[nisnInput]) {
+            downloadLink.href = sklFiles[nisnInput];
+            downloadLink.style.display = "inline-block";
+            errorMessage.style.display = "none";
+        } else {
+            downloadLink.style.display = "none";
+            errorMessage.style.display = "block";
+        }
+
+        cekKelulusan();  // Cek kelulusan setelah input NISN
+    }
+
+    // Fungsi cek kelulusan
+    const siswaData = [
+      { nisn: "1234567890", nama: "Ahmad Zaki", lulus: true },
+      { nisn: "0987654321", nama: "Dina Safira", lulus: false },
+      { nisn: "1122334455", nama: "Dani", lulus: true }
+    ];
+
+    function cekKelulusan() {
+        const nisn = document.getElementById("nisnInput").value.trim();
+        const emoji = document.getElementById("statusEmoji");
+        const motivasiText = document.getElementById("motivasiText");
+
+        const siswa = siswaData.find(siswa => siswa.nisn === nisn);
+
+        if (siswa) {
+            if (siswa.lulus) {
+                emoji.innerText = "🎉";
+                emoji.style.display = "block";
+                motivasiText.innerText = `Selamat, ${siswa.nama}! Kamu LULUS! Terus semangat dan raih cita-citamu!`;
+                motivasiText.className = "motivasi lulus";
+                motivasiText.style.display = "block";
+                confetti({
+                    particleCount: 200,
+                    spread: 90,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                emoji.innerText = "😢";
+                emoji.style.display = "block";
+                motivasiText.innerText = `Maaf, ${siswa.nama}. Kamu TIDAK LULUS. Jangan menyerah, terus berjuang!`;
+                motivasiText.className = "motivasi tidaklulus";
+                motivasiText.style.display = "block";
+            }
+        } else {
+            emoji.innerText = "❓";
+            emoji.style.display = "block";
+            motivasiText.innerText = "NISN tidak ditemukan, periksa kembali NISN Anda.";
+            motivasiText.className = "motivasi";
+            motivasiText.style.display = "block";
+        }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      font-family: 'Comic Neue', cursive;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background-color: #fff;
+      color: #111;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      max-width: 500px;
+      width: 90%;
+      transition: all 0.5s ease;
+    }
+
+    .container img {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .judul {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .subjudul {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: nowrap;
+    }
+
+    .countdown div {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 20px 15px;
+      border-radius: 15px;
+      font-size: 1.5em;
+      min-width: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #inputSection {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      border: 2px solid #2c3e50;
+      border-radius: 10px;
+      font-size: 1em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #34495e;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    @media (max-width: 480px) {
+      .judul {
+        font-size: 1.3em;
+      }
+
+      .subjudul {
+        font-size: 1em;
+      }
+
+      .countdown div {
+        font-size: 1.2em;
+        min-width: 50px;
+      }
+
+      input[type="text"] {
+        width: 90%;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .emoji {
+      font-size: 3em;
+      margin-top: 20px;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .motivasi {
+      font-size: 1.2em;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .lulus {
+      color: #28a745; /* hijau */
+    }
+
+    .tidaklulus {
+      color: #e74c3c; /* merah */
+    }
+
+    #downloadLink {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    #errorMessage {
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://github.com/Admin-Dekstop/Info-Kelulusan/raw/main/logo.jpg" alt="Logo Sekolah">
+    <div class="judul">Pengumuman Kelulusan Siswa</div>
+    <div class="subjudul">SMP Negeri 2 Ampana Kota<br>Tahun Ajaran 2024/2025</div>
+    <p id="infoText">Pengumuman akan dibuka dalam:</p>
+    <div class="countdown" id="countdown">
+      <div id="days">00</div>
+      <div id="hours">00</div>
+      <div id="minutes">00</div>
+      <div id="seconds">00</div>
+    </div>
+
+    <div id="inputSection">
+      <input id="nisnInput" type="text" placeholder="Masukkan NISN Anda" />
+      <button onclick="validateNSN()">Cek Kelulusan</button>
+    </div>
+
+    <div class="emoji" id="statusEmoji">🎉</div>
+
+    <div id="motivasiText" class="motivasi"></div>
+
+    <a id="downloadLink" href="#" download>Download SKL</a>
+    <p id="errorMessage">NISN tidak ditemukan. Silakan coba lagi.</p>
+
+    <footer>
+      © 2025 SMP NEGERI 2 AMPANA KOTA<br>
+      Created by FANDY S. M. DALI
+    </footer>
+  </div>
+
+  <script>
+    const countdownDate = new Date("2025-05-09T10:00:00+08:00").getTime();
+
+    const countdownFunction = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdownFunction);
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("infoText").innerText = "Silakan masukkan NISN Anda:";
+        document.getElementById("inputSection").style.display = "flex";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = String(days).padStart(2, '0');
+      document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+    }, 1000);
+  </script>
+</body>
+</html>
